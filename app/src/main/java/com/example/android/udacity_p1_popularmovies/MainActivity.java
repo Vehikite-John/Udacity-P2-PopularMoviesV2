@@ -28,13 +28,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar mLoadingIndicator;
     private MovieAdapter mMovieAdapter;
     private Menu menu;
+    private MenuItem mostPopular;
+    private MenuItem topRated;
     private static boolean isMostPopularSelected = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_movie_list);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
@@ -122,6 +123,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options, menu);
+        mostPopular = menu.findItem(R.id.action_sort_popular);
+        topRated = menu.findItem(R.id.action_sort_top_rated);
+        if (isMostPopularSelected) {
+            mostPopular.setVisible(false);
+            topRated.setVisible(true);
+        }
+        else {
+            mostPopular.setVisible(true);
+            topRated.setVisible(false);
+        }
         return true;
     }
 
@@ -132,14 +143,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             isMostPopularSelected = true;
             loadMovieData();
             item.setVisible(false);
-            MenuItem topRated = menu.findItem(R.id.action_sort_top_rated);
+            topRated = menu.findItem(R.id.action_sort_top_rated);
             topRated.setVisible(true);
         }
         if (id == R.id.action_sort_top_rated) {
             isMostPopularSelected = false;
             loadMovieData();
             item.setVisible(false);
-            MenuItem mostPopular = menu.findItem(R.id.action_sort_popular);
+            mostPopular = menu.findItem(R.id.action_sort_popular);
             mostPopular.setVisible(true);
         }
         return super.onOptionsItemSelected(item);
