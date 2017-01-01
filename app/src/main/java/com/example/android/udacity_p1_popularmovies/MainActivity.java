@@ -21,6 +21,7 @@ import utilities.TheMovieDbJsonUtils;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String EXTRA_NAME = "MOVIE";
     private RecyclerView mRecyclerView;
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Context context = this;
         Class destinationClass = MovieDetail.class;
         Intent intentToStartMovieDetail = new Intent(context, destinationClass);
-        intentToStartMovieDetail.putExtra(Intent.EXTRA_TEXT, movieInfo.title);
+        intentToStartMovieDetail.putExtra(EXTRA_NAME, movieInfo);
         startActivity(intentToStartMovieDetail);
     }
 

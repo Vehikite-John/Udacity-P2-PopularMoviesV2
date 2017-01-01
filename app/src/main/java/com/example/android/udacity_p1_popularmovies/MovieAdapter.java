@@ -2,7 +2,6 @@ package com.example.android.udacity_p1_popularmovies;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +101,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, int position) {
         Movie movieInfo = mMovieData[position];
         Picasso.with(context).load(movieInfo.poster).into(movieAdapterViewHolder.mMovieImageView);
-        Log.v(TAG, "poster url: " + movieInfo.poster);
     }
 
     /**

@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MovieDetail"
+            android:name="com.example.android.udacity_p1_popularmovies.MovieDetail"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
