@@ -4,14 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by jdavet on 12/30/2016.
+ * Created by John Vehikite on 12/30/2016.
+ * Movie object that holds necessary information
+ * necessary to complete deliverables for Project 1;
+ * Implements Parcelable in order to save state when
+ * orientation changes; also allows Movie objects to
+ * be passed between Activities
+ *
+ * Referenced source code: https://github.com/udacity/android-custom-arrayadapter/tree/parcelable
  */
-
 public class Movie implements Parcelable {
-    // Movie details layout contains title, release date,
-    // movie poster, vote average, and plot synopsis.
     String title;
-    // Date date;
     String releaseDate;
     String poster;
     double voteAverage;
@@ -25,6 +28,9 @@ public class Movie implements Parcelable {
         plotSynopsis = mPlotSynopsis;
     }
 
+    /*
+    Boilerplate code to implment Parecelable
+     */
     private Movie(Parcel in) {
         title = in.readString();
         releaseDate = in.readString();

@@ -2,6 +2,6 @@
     <string name="app_name">Popular Movies</string>
     <string name="error">An error has occurred. Please try again.</string>
     <string name="action_sort_popular">Sort by most popular</string>
-    <string name="action_sort_top_rated">Sort by top rated
-    </string>
+    <string name="action_sort_top_rated">Sort by top rated</string>
+    <string name="content_descr_poster">Movie Poster</string>
 </resources>

@@ -10,58 +10,58 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 /**
- * Created by jdavet on 12/30/2016.
+ * Created by John Vehikite on 12/30/2016.
+ * MovieAdapter links movie data to the item views
  */
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
+class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
     public static final String TAG = MovieAdapter.class.getSimpleName();
     private Movie[] mMovieData;
-    Context context;
+    private Context context;
+
     /*
-     * An on-click handler that we've defined to make it easy for an Activity to interface with
-     * our RecyclerView
+    Custom onclick handler for each movie item
      */
     private final MovieAdapterOnClickHandler mClickHandler;
 
     /**
      * The interface that receives onClick messages.
      */
-    public interface MovieAdapterOnClickHandler {
-        void onClick(Movie movieInfo);
+    interface MovieAdapterOnClickHandler {
+        void onClick(Movie movie);
     }
 
     /**
-     * Creates a ForecastAdapter.
+     * Creates a MovieAdapter.
      *
-     * @param clickHandler The on-click handler for this adapter. This single handler is called
-     *                     when an item is clicked.
+     * @param clickHandler
      */
-    public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
+    MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
     /**
-     * Cache of the children views for a forecast list item.
+     * Cache of the movie item views.
      */
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView mMovieImageView;
+    class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        final ImageView mMovieImageView;
 
-        public MovieAdapterViewHolder(View view) {
+        MovieAdapterViewHolder(View view) {
             super(view);
             mMovieImageView = (ImageView) view.findViewById(R.id.iv_movie_poster_view);
             view.setOnClickListener(this);
         }
 
         /**
-         * This gets called by the child views during a click.
+         * Called by movie item views when clicked.
          *
          * @param v The View that was clicked
          */
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            Movie movieInfo = mMovieData[adapterPosition];
-            mClickHandler.onClick(movieInfo);
+            Movie movie = mMovieData[adapterPosition];
+            mClickHandler.onClick(movie);
         }
     }
 
@@ -74,7 +74,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
      *                  can use this viewType integer to provide a different layout. See
      *                  {@link android.support.v7.widget.RecyclerView.Adapter#getItemViewType(int)}
      *                  for more details.
-     * @return A new ForecastAdapterViewHolder that holds the View for each list item
+     * @return A new MovieAdapterViewHolder that holds the View for each movie item
      */
     @Override
     public MovieAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -89,7 +89,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     /**
      * OnBindViewHolder is called by the RecyclerView to display the data at the specified
-     * position. In this method, we update the contents of the ViewHolder to display the weather
+     * position. In this method, we update the contents of the ViewHolder to display the movie
      * details for this particular position, using the "position" argument that is conveniently
      * passed into us.
      *
@@ -99,8 +99,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
      */
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, int position) {
-        Movie movieInfo = mMovieData[position];
-        Picasso.with(context).load(movieInfo.poster).into(movieAdapterViewHolder.mMovieImageView);
+        Movie movie = mMovieData[position];
+        // use Picasso to handle image caching and loading
+        Picasso.with(context).load(movie.poster).into(movieAdapterViewHolder.mMovieImageView);
     }
 
     /**
@@ -116,13 +117,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     }
 
     /**
-     * This method is used to set the weather forecast on a ForecastAdapter if we've already
+     * This method is used to set movie data on a MovieAdapter if we've already
      * created one. This is handy when we get new data from the web but don't want to create a
-     * new ForecastAdapter to display it.
+     * new MovieAdapter to display it.
      *
-     * @param movieData The new weather data to be displayed.
+     * @param movieData The new movie data to be displayed.
      */
-    public void setMovieData(Movie[] movieData) {
+    void setMovieData(Movie[] movieData) {
         mMovieData = movieData;
         notifyDataSetChanged();
     }

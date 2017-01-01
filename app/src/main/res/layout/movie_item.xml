@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!--This TextView holds the weather data for one particular day in the forecast-->
     <ImageView
         android:id="@+id/iv_movie_poster_view"
         android:layout_width="match_parent"
         android:layout_height="305dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/content_descr_poster"/>
 
 </LinearLayout>

@@ -11,7 +11,9 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
- * Created by jdavet on 12/28/2016.
+ * Created by John Vehikite on 12/28/2016.
+ * Class that holds utilities for API calls
+ * Udacity Sunshine app code referenced
  */
 
 public final class NetworkUtils {
@@ -26,32 +28,10 @@ public final class NetworkUtils {
     // TODO: INPUT THEMOVIEDB API KEY HERE
     private static final String API_KEY = "";
 
-    /*
-     * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
-     * server. They are simply here to allow us to teach you how to build a URL if you were to use
-     * a real API.If you want to connect your app to OpenWeatherMap's API, feel free to! However,
-     * we are not going to show you how to do so in this course.
-     */
-
-    /* The format we want our API to return */
-    private static final String format = "json";
-    /* The units we want our API to return */
-    private static final String units = "metric";
-    /* The number of days we want our API to return */
-    private static final int numDays = 14;
-
-    final static String QUERY_PARAM = "q";
-    final static String LAT_PARAM = "lat";
-    final static String LON_PARAM = "lon";
-    final static String FORMAT_PARAM = "mode";
-    final static String UNITS_PARAM = "units";
-    final static String DAYS_PARAM = "cnt";
-
     /**
-     * Builds the URL used to talk to the weather server using a location. This location is based
-     * on the query capabilities of the weather provider that we are using.
+     * Builds the URL for most popular movies that will be queried
      *
-     * @return The URL to use to query the weather server.
+     * @return The most popular movies URL to use to query themoviedb.
      */
     public static URL buildPopularMoviesUrl() {
         Uri builtUri = Uri.parse(POPULAR_MOVIES_URL + API_KEY).buildUpon().build();
@@ -67,6 +47,11 @@ public final class NetworkUtils {
         return url;
     }
 
+    /**
+     * Builds the URL for top rated movies that will be queried
+     *
+     * @return The top rated movies URL to use to query themoviedb.
+     */
     public static URL buildTopRatedMoviesUrl() {
         Uri builtUri = Uri.parse(TOP_RATED_MOVIES_URL + API_KEY).buildUpon().build();
         URL url = null;

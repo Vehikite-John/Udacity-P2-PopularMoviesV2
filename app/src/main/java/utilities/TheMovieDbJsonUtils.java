@@ -9,21 +9,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by jdavet on 12/29/2016.
+ * Created by John Vehikite on 12/29/2016.
+ * Class that holds utilities for parsing JSON
+ * Udacity Sunshine app code referenced
  */
 
 public class TheMovieDbJsonUtils {
     /**
-     * This method parses JSON from a web response and returns an array of Strings
-     * describing the weather over various days from the forecast.
-     * <p/>
-     * Later on, we'll be parsing the JSON into structured data within the
-     * getFullWeatherDataFromJson function, leveraging the data we have stored in the JSON. For
-     * now, we just convert the JSON into human-readable strings.
+     * This method parses JSON from a web response and returns an array of Movie objects
      *
      * @param movieJsonStr JSON response from server
      *
-     * @return Array of Strings describing weather data
+     * @return Array of Movie objects
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
@@ -40,13 +37,16 @@ public class TheMovieDbJsonUtils {
         /* String array to hold each movies output String */
         Movie[] parsedMovieData = null;
 
+        // create a JSON object from JSON data from API call
         JSONObject movieJson = new JSONObject(movieJsonStr);
 
-        // TODO: Handle connection errors
-
+        // create a JSON array from JSON object
         JSONArray movieArray = movieJson.getJSONArray(TMDB_RESULTS);
+
+        // initiate Movie object array
         parsedMovieData = new Movie[movieArray.length()];
 
+        // loop through JSON array to populate Movie object array
         for (int i = 0; i < movieArray.length(); i++) {
             String title;
             String releaseDate;
@@ -54,18 +54,21 @@ public class TheMovieDbJsonUtils {
             double voteAverage;
             String plot;
 
-            /* Get the JSON object representing the day */
+            /* Get the JSON object representing the movie at
+             * index i
+            */
             JSONObject currentMovieObject = movieArray.getJSONObject(i);
 
+            // populate movie data
             title = currentMovieObject.getString(TMDB_TITLE);
             releaseDate = currentMovieObject.getString(TMDB_RELEASE_DATE);
             posterPath = "https://image.tmdb.org/t/p/w300_and_h450_bestv2/" + currentMovieObject.getString(TMDB_POSTER).substring(1);
             voteAverage = currentMovieObject.getDouble(TMDB_VOTE_AVERAGE);
             plot = currentMovieObject.getString(TMDB_PLOT);
 
+            // initialize Movie object at current index
             parsedMovieData[i] = new Movie(title, releaseDate, posterPath, voteAverage, plot);
         }
-
         return parsedMovieData;
     }
 }
