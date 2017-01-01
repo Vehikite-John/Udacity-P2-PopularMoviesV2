@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.net.URL;
 
 import utilities.NetworkUtils;
+import utilities.NumColsUtil;
 import utilities.TheMovieDbJsonUtils;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
@@ -37,8 +38,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_movie_list);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+
+        int numCols = NumColsUtil.calculateNoOfColumns(this);
         GridLayoutManager layoutManager
-                = new GridLayoutManager(this, 2);
+                = new GridLayoutManager(this, numCols);
 
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         loadMovieData();
     }
+
 
     private void loadMovieData() {
         showMovieInfoView();
