@@ -7,40 +7,48 @@
 Most of us can relate to kicking back on the couch and enjoying a movie with friends and family. In this project, you’ll build an app to allow users to discover the most popular movies playing. We will split the development of this app in two stages. First, let's talk about stage 1. In this stage you’ll build the core experience of your movies app.
 
 You app will:
--Present the user with a grid arrangement of movie posters upon launch.
--Allow your user to change sort order via a setting:
--The sort order can be by most popular or by highest-rated
--Allow the user to tap on a movie poster and transition to a details screen with additional information such as:
--original title
--movie poster image thumbnail
--A plot synopsis (called overview in the api)
--user rating (called vote_average in the api)
--release date
-
-## Code Example
-
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+*Present the user with a grid arrangement of movie posters upon launch.
+*Allow your user to change sort order via a setting:
+*The sort order can be by most popular or by highest-rated
+*Allow the user to tap on a movie poster and transition to a details screen with additional information such as:
+*original title
+*movie poster image thumbnail
+*A plot synopsis (called overview in the api)
+*user rating (called vote_average in the api)
+*release date
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+This fulfills the Project 1 requirement of Udacity's Android Nanodegree Program
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
-
-## API Reference
-
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
-
-## Tests
-
-Describe and show how to run the tests with code examples.
+Clone the repository, import the project in Android Studio, and run the app in the emulator or on a physical Android device. Click on the following link for more details: <https://developer.android.com/training/basics/firstapp/running-app.html>
 
 ## Contributors
 
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
+John Vehikite
 
 ## License
 
-A short snippet describing the license (MIT, Apache, etc.)
+MIT License
+
+Copyright (c) 2017 John Vehikite
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
