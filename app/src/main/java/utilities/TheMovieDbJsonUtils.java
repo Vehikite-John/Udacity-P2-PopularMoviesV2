@@ -24,7 +24,7 @@ public class TheMovieDbJsonUtils {
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
-    public static Movie[] getSimpleWeatherStringsFromJson(Context context, String movieJsonStr)
+    public static Movie[] getMoviesFromJson(Context context, String movieJsonStr)
             throws JSONException {
 
         final String TMDB_RESULTS = "results";

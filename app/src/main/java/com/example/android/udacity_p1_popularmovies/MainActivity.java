@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             }
             try {
                 String jsonResponse = NetworkUtils.getResponseFromHttpUrl(moviesUrl);
-                Movie[] simpleJsonMovieInfo = TheMovieDbJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this, jsonResponse);
+                Movie[] simpleJsonMovieInfo = TheMovieDbJsonUtils.getMoviesFromJson(MainActivity.this, jsonResponse);
                 return simpleJsonMovieInfo;
             }
             catch (Exception e) {
