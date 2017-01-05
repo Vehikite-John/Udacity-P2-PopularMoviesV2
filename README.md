@@ -1,5 +1,7 @@
 # Udacity-P2-PopularMoviesV2
 
+## Click the following link for Project 1 (Popular Movies V1): <https://github.com/Vehikite-John/Udacity-P1-PopularMovies>
+
 ## Synopsis
 
 Welcome back to Popular Movies! In this second and final stage, you’ll add additional functionality to the app you built in Stage 1.
