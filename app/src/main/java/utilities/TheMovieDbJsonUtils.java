@@ -2,7 +2,7 @@ package utilities;
 
 import android.content.Context;
 
-import com.example.android.udacity_p1_popularmovies.Movie;
+import com.jvapps.android.udacity_p1_popularmovies.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;

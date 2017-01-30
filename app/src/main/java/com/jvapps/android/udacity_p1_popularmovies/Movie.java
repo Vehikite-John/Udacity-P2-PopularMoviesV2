@@ -1,4 +1,4 @@
-package com.example.android.udacity_p1_popularmovies;
+package com.jvapps.android.udacity_p1_popularmovies;
 
 import android.os.Parcel;
 import android.os.Parcelable;
