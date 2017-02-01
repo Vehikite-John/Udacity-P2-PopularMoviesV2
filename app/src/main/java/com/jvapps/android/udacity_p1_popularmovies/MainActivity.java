@@ -2,8 +2,10 @@ package com.jvapps.android.udacity_p1_popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +27,9 @@ import utilities.TheMovieDbJsonUtils;
  * Controller for the Main UI
  * Udacity Sunshine app code referenced
  */
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
+public class MainActivity extends AppCompatActivity implements
+        MovieAdapter.MovieAdapterOnClickHandler,
+        LoaderManager.LoaderCallbacks<Movie[]> {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String EXTRA_NAME = "MOVIE";
 
@@ -34,8 +38,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar mLoadingIndicator;
     private MovieAdapter mMovieAdapter;
     private Menu menu;
+
     private MenuItem mostPopular;
     private MenuItem topRated;
+
+    // uniquely identify the loader
+    private static final int MOVIE_LOADER_ID = 0;
 
     // since app starts with movies sorted by most popular, set to true
     // used to display correct option
@@ -87,16 +95,20 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         /*
         Once the views are setup, load the movie data
          */
-        loadMovieData();
-    }
+        LoaderManager.LoaderCallbacks<Movie[]> callbacks = MainActivity.this;
 
-    /**
-     * This method calls showMovieInfoView() and FetchMovieInfoTask()
-     * to start API call and show RecyclerView with movie posters
-     */
-    private void loadMovieData() {
-        showMoviePosterView();
-        new FetchMovieInfoTask().execute();
+        /*
+        This is the 2nd parameter for the initLoader() method below.
+        Since no bundle is being used in this current version, the value is null.
+         */
+        Bundle bundleForLoader = null;
+
+        /*
+        initLoader() ensures that a loader is initialized and active. If there
+        is one already active, the last created loader is reused. If not, a
+        new loader is initialized.
+         */
+        getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, bundleForLoader, this);
     }
 
     /**
@@ -137,60 +149,107 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * Background task to make API call to themoviedb to fetch
-     * movie information
+     * Instantiates and returns a new Loader for the given ID
+     *
+     * @param id The ID whose loader is to be created.
+     * @param loaderArgs Any arguments supplied by the caller.
+     *
+     * @return Return a new Loader instance that is ready to start loading
      */
-    public class FetchMovieInfoTask extends AsyncTask<Void, Void, Movie[]> {
+    @Override
+    public Loader<Movie[]> onCreateLoader(int id, final Bundle loaderArgs) {
+        return new AsyncTaskLoader<Movie[]>(this) {
 
-        /*
-        Make the progress bar visible right before API call begins
-         */
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
+            // movie data will be cached in this Movie array
+            Movie[] mMovieData = null;
+
+            /**
+             * loads data if mMovieData is null
+             */
+            @Override
+            protected void onStartLoading() {
+                if (mMovieData != null) {
+                    deliverResult(mMovieData);
+                }
+                else {
+                    mLoadingIndicator.setVisibility(View.VISIBLE);
+                    forceLoad();
+                }
+            }
+
+            /**
+             * Subclasses of AsyncTaskLoader are required to override this method
+             * Loads and parses JSON data
+             *
+             * @return An array of Movie objects
+             */
+            @Override
+            public Movie[] loadInBackground() {
+                URL moviesUrl;
+                if (isMostPopularSelected) {
+                    moviesUrl = NetworkUtils.buildPopularMoviesUrl();
+                }
+                else {
+                    moviesUrl = NetworkUtils.buildTopRatedMoviesUrl();
+                }
+                try {
+                    String jsonResponse = NetworkUtils.getResponseFromHttpUrl(moviesUrl);
+                    Movie[] simpleJsonMovieInfo = TheMovieDbJsonUtils.getMoviesFromJson(MainActivity.this, jsonResponse);
+                    return simpleJsonMovieInfo;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            /**
+             * Sends the result of the load to the registered listener.
+             *
+             * @param data The result of the load
+             */
+            public void deliverResult(Movie[] data) {
+                mMovieData = data;
+                super.deliverResult(data);
+            }
+        };
+    }
+
+    /**
+     * Called when a previously created loader has finished its load
+     *
+     * @param loader The Loader that has finished
+     * @param movieData The data generated by the Loader.
+     */
+    @Override
+    public void onLoadFinished(Loader<Movie[]> loader, Movie[] movieData) {
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        if (movieData != null) {
+            showMoviePosterView();
+            mMovieAdapter.setMovieData(movieData);
         }
-
-        /*
-        Make appropriate API call based on value of isMostPopularSelected;
-        return an array of Movie objects if API call was successful
-         */
-        @Override
-        protected Movie[] doInBackground(Void... voids) {
-            URL moviesUrl;
-            if (isMostPopularSelected) {
-                moviesUrl = NetworkUtils.buildPopularMoviesUrl();
-            }
-            else {
-                moviesUrl = NetworkUtils.buildTopRatedMoviesUrl();
-            }
-            try {
-                String jsonResponse = NetworkUtils.getResponseFromHttpUrl(moviesUrl);
-                Movie[] simpleJsonMovieInfo = TheMovieDbJsonUtils.getMoviesFromJson(MainActivity.this, jsonResponse);
-                return simpleJsonMovieInfo;
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        /*
-        After API call, hide progress bar and either call showMoviePosterView()
-        or showErrorMessage()
-         */
-        @Override
-        protected void onPostExecute(Movie[] movieInfo) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (movieInfo != null) {
-                showMoviePosterView();
-                mMovieAdapter.setMovieData(movieInfo);
-            }
-            else {
-                showErrorMessage();
-            }
+        else {
+            showErrorMessage();
         }
     }
+
+    /**
+     * Called when a previously created loader is being reset, and thus
+     * making its data unavailable.  The application should at this point
+     * remove any references it has to the Loader's data.
+     *
+     * @param loader The Loader that is being reset.
+     */
+    @Override
+    public void onLoaderReset(Loader<Movie[]> loader) {
+        /*
+        Method is not being used, but it is included since it must
+        be overriden.
+         */
+    }
+    /*
+     * AsyncTask removed and replaced by AsyncTaskLoader
+     */
 
     /**
      * Overridden method
@@ -228,14 +287,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         int id = item.getItemId();
         if (id == R.id.action_sort_popular) {
             isMostPopularSelected = true;
-            loadMovieData();
+            getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
             item.setVisible(false);
             topRated = menu.findItem(R.id.action_sort_top_rated);
             topRated.setVisible(true);
         }
         if (id == R.id.action_sort_top_rated) {
             isMostPopularSelected = false;
-            loadMovieData();
+            getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
             item.setVisible(false);
             mostPopular = menu.findItem(R.id.action_sort_popular);
             mostPopular.setVisible(true);
