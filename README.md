@@ -1,5 +1,7 @@
 # Udacity-P2-PopularMoviesV2
 
+## Google Play Store Link: https://play.google.com/store/apps/details?id=com.jvapps.android.udacity_p1_popularmovies
+
 ## Click the following link for Project 1 (Popular Movies V1): <https://github.com/Vehikite-John/Udacity-P1-PopularMovies>
 
 ## Synopsis
